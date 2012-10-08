@@ -61,7 +61,7 @@ class ShowOff < Sinatra::Application
     if File.exists?(ShowOffUtils.presentation_config_file)
       showoff_json = JSON.parse(File.read(ShowOffUtils.presentation_config_file))
       settings.showoff_config = showoff_json
-      
+
       # Set options for encoding, template and page size
       settings.encoding = showoff_json["encoding"]
       settings.page_size = showoff_json["page-size"] || "Letter"
