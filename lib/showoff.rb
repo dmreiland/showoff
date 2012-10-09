@@ -37,6 +37,8 @@ class ShowOff < Sinatra::Application
   set :pres_template, nil
   set :showoff_config, nil
   set :encoding, nil
+  set :js_files, []
+  set :css_files, []
 
   def initialize(app=nil)
     super(app)
@@ -65,7 +67,9 @@ class ShowOff < Sinatra::Application
       # Set options for encoding, template and page size
       settings.encoding = showoff_json["encoding"]
       settings.page_size = showoff_json["page-size"] || "Letter"
-      settings.pres_template = showoff_json["templates"] 
+      settings.pres_template = showoff_json["templates"]
+      settings.js_files = showoff_json["js"] || []
+      settings.css_files = showoff_json["css"] || []
     end
 
 
@@ -105,11 +109,11 @@ class ShowOff < Sinatra::Application
     end
 
     def css_files
-      Dir.glob("#{settings.pres_dir}/*.css").map { |path| File.basename(path) }
+      Dir.glob(settings.css_files) + Dir.glob("#{settings.pres_dir}/*.css").map { |path| File.basename(path) }
     end
 
     def js_files
-      Dir.glob("#{settings.pres_dir}/*.js").map { |path| File.basename(path) }
+      Dir.glob(settings.js_files) + Dir.glob("#{settings.pres_dir}/*.js").map { |path| File.basename(path) }
     end
 
 
